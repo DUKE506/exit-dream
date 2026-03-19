@@ -1,12 +1,20 @@
+// src/store/portfolioStore.ts
+
 import { create } from "zustand";
 import { Portfolio, Holding, Trade } from "@/types/portfolio";
+
+interface PriceInfo {
+  price: number;
+  changeRate: number;
+  changePrice: number;
+}
 
 interface PortfolioState extends Portfolio {
   // Actions
   buyCoin: (symbol: string, amount: number, price: number) => void;
   sellCoin: (symbol: string, amount: number, price: number) => void;
-  getTotalAsset: (currentPrices: Record<string, number>) => number;
-  getProfitRate: (currentPrices: Record<string, number>) => number;
+  getTotalAsset: (currentPrices: Record<string, number | PriceInfo>) => number;
+  getProfitRate: (currentPrices: Record<string, number | PriceInfo>) => number;
   reset: () => void;
 }
 
@@ -107,17 +115,19 @@ export const usePortfolioStore = create<PortfolioState>((set, get) => ({
   },
 
   // 총 자산 계산
-  getTotalAsset: (currentPrices: Record<string, number>) => {
+  getTotalAsset: (currentPrices: Record<string, number | PriceInfo>) => {
     const { cash, holdings } = get();
     const coinValue = holdings.reduce((sum, holding) => {
-      const currentPrice = currentPrices[holding.symbol] || 0;
+      const priceData = currentPrices[holding.symbol];
+      const currentPrice =
+        typeof priceData === "number" ? priceData : priceData?.price || 0;
       return sum + holding.amount * currentPrice;
     }, 0);
     return cash + coinValue;
   },
 
   // 수익률 계산
-  getProfitRate: (currentPrices: Record<string, number>) => {
+  getProfitRate: (currentPrices: Record<string, number | PriceInfo>) => {
     const { initialCash } = get();
     const totalAsset = get().getTotalAsset(currentPrices);
     return ((totalAsset - initialCash) / initialCash) * 100;
