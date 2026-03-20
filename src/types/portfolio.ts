@@ -1,19 +1,24 @@
 export interface Holding {
-  symbol: string; // 코인 심볼 (예: "KRW-BTC")
-  amount: number; // 보유 수량
-  avgPrice: number; // 평균 매수가
+  symbol: string;
+  amount: number;
+  avgPrice: number;
+  // TP/SL 추가
+  takeProfit?: number; // 목표가 (이 가격 이상이면 자동 매도)
+  stopLoss?: number; // 손절가 (이 가격 이하면 자동 매도)
 }
 
 export interface Trade {
   id: string;
   symbol: string;
   type: "BUY" | "SELL";
-  amount: number; // 수량
-  price: number; // 체결 가격
-  total: number; // 총액
-  timestamp: number; // 거래 시간
+  amount: number;
+  price: number;
+  total: number;
+  timestamp: number;
+  // 자동 매도 여부 추가
+  autoSell?: boolean; // TP/SL에 의한 자동 매도인지
+  autoSellType?: "TP" | "SL"; // 어떤 조건으로 매도되었는지
 }
-
 export interface Portfolio {
   cash: number; // 보유 현금
   initialCash: number; // 초기 자금

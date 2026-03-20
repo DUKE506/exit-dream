@@ -7,6 +7,7 @@ import { Holding } from "@/types/portfolio";
 import { Coin } from "@/types/coin";
 import { HoldingItem } from "./HoldingItem";
 import { SellModal } from "./SellModal";
+import { TPSLModal } from "./TPSLModal";
 
 interface HoldingListProps {
   holdings: Holding[];
@@ -22,18 +23,40 @@ interface HoldingListProps {
 }
 
 export function HoldingList({ holdings, coins, prices }: HoldingListProps) {
-  const [selectedSymbol, setSelectedSymbol] = useState<string | null>(null);
+  const [selectedSymbolForSell, setSelectedSymbolForSell] = useState<
+    string | null
+  >(null);
+  const [selectedSymbolForTPSL, setSelectedSymbolForTPSL] = useState<
+    string | null
+  >(null);
 
   const handleSellClick = (symbol: string) => {
-    setSelectedSymbol(symbol);
+    setSelectedSymbolForSell(symbol);
+  };
+  const handleTPSLClick = (symbol: string) => {
+    setSelectedSymbolForTPSL(symbol);
   };
 
-  const handleCloseModal = () => {
-    setSelectedSymbol(null);
+  const handleCloseSellModal = () => {
+    setSelectedSymbolForSell(null);
+  };
+  const handleCloseTPSLModal = () => {
+    setSelectedSymbolForTPSL(null);
   };
 
-  const selectedHolding = holdings.find((h) => h.symbol === selectedSymbol);
-  const selectedCoin = coins.find((c) => c.market === selectedSymbol);
+  const selectedHoldingForSell = holdings.find(
+    (h) => h.symbol === selectedSymbolForSell,
+  );
+  const selectedCoinForSell = coins.find(
+    (c) => c.market === selectedSymbolForSell,
+  );
+
+  const selectedHoldingForTPSL = holdings.find(
+    (h) => h.symbol === selectedSymbolForTPSL,
+  );
+  const selectedCoinForTPSL = coins.find(
+    (c) => c.market === selectedSymbolForTPSL,
+  );
 
   return (
     <>
@@ -49,20 +72,35 @@ export function HoldingList({ holdings, coins, prices }: HoldingListProps) {
               coin={coin}
               currentPrice={currentPrice}
               onSellClick={handleSellClick}
+              onTPSLClick={handleTPSLClick}
             />
           );
         })}
       </div>
 
       {/* 매도 모달 */}
-      {selectedSymbol && selectedHolding && selectedCoin && (
-        <SellModal
-          holding={selectedHolding}
-          coin={selectedCoin}
-          currentPrice={prices[selectedSymbol]?.price || 0}
-          onClose={handleCloseModal}
-        />
-      )}
+      {selectedSymbolForSell &&
+        selectedHoldingForSell &&
+        selectedCoinForSell && (
+          <SellModal
+            holding={selectedHoldingForSell}
+            coin={selectedCoinForSell}
+            currentPrice={prices[selectedSymbolForSell]?.price || 0}
+            onClose={handleCloseSellModal}
+          />
+        )}
+
+      {/* TP/SL 모달 */}
+      {selectedSymbolForTPSL &&
+        selectedHoldingForTPSL &&
+        selectedCoinForTPSL && (
+          <TPSLModal
+            holding={selectedHoldingForTPSL}
+            coin={selectedCoinForTPSL}
+            currentPrice={prices[selectedSymbolForTPSL]?.price || 0}
+            onClose={handleCloseTPSLModal}
+          />
+        )}
     </>
   );
 }

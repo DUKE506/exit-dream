@@ -50,6 +50,19 @@ export function TradeItem({ trade, coin }: TradeItemProps) {
               <span className="text-sm text-gray-400">
                 {trade.symbol.replace("KRW-", "")}
               </span>
+
+              {/* 자동 매도 뱃지 추가 */}
+              {trade.autoSell && (
+                <span
+                  className={`text-xs px-2 py-0.5 rounded-full ${
+                    trade.autoSellType === "TP"
+                      ? "bg-green-600/20 text-green-400 border border-green-600/30"
+                      : "bg-red-600/20 text-red-400 border border-red-600/30"
+                  }`}
+                >
+                  {trade.autoSellType === "TP" ? "🎯 목표가 달성" : "🛑 손절"}
+                </span>
+              )}
             </div>
             <p className="text-gray-400 text-sm">
               {dateString} {timeString}

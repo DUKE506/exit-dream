@@ -10,7 +10,6 @@ import { AssetSummary } from "@/components/common/AssetSummary";
 import { CoinList } from "@/components/coin/CoinList";
 import { BuyModal } from "@/components/coin/BuyModal";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/common/Button";
 import { CoinDetailModal } from "@/components/coin/CoinDetailModal";
 
 export default function Home() {
@@ -56,41 +55,27 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-900 to-black text-white">
       <div className="max-w-6xl mx-auto px-4 py-8">
         {/* 헤더 */}
-        <header className="mb-8">
+        <header className="mb-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-5xl font-bold mb-2 bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent">
+              <h1 className="text-4xl md:text-5xl font-bold mb-2 bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent">
                 EXIT
               </h1>
-              <p className="text-gray-400 text-lg">코인 투자 시뮬레이터</p>
+              <p className="text-gray-400 text-sm md:text-base">
+                코인 투자 시뮬레이터
+              </p>
             </div>
 
-            <div className="text-right">
-              <div className="flex items-center gap-2">
-                <div
-                  className={`w-3 h-3 rounded-full ${
-                    isConnected ? "bg-green-500 animate-pulse" : "bg-red-500"
-                  }`}
-                />
-                <span className="text-sm text-gray-400">
-                  {isConnected ? "실시간 연결" : "연결 끊김"}
-                </span>
-              </div>
-              {/* 포트폴리오 버튼 추가 */}
-              <Button
-                variant="secondary"
-                size="md"
-                onClick={() => router.push("/history")}
-              >
-                거래 내역
-              </Button>
-              <Button
-                variant="primary"
-                size="md"
-                onClick={() => router.push("/portfolio")}
-              >
-                포트폴리오
-              </Button>
+            {/* 연결 상태 */}
+            <div className="flex items-center gap-2">
+              <div
+                className={`w-2 h-2 md:w-3 md:h-3 rounded-full ${
+                  isConnected ? "bg-green-500 animate-pulse" : "bg-red-500"
+                }`}
+              />
+              <span className="text-xs md:text-sm text-gray-400">
+                {isConnected ? "실시간" : "연결 끊김"}
+              </span>
             </div>
           </div>
         </header>

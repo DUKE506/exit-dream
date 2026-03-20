@@ -29,6 +29,37 @@ export async function getTopCoins(): Promise<Coin[]> {
     "KRW-MATIC",
     "KRW-DOT",
     "KRW-LINK",
+
+    // 11-20
+    "KRW-ADA", // 카르다노
+    "KRW-AVAX", // 아발란체
+    "KRW-MATIC", // 폴리곤
+    "KRW-DOT", // 폴카닷
+    "KRW-LINK", // 체인링크
+
+    // 21-30
+    "KRW-TRX", // 트론
+    "KRW-ATOM", // 코스모스
+    "KRW-SUI", // 수이
+    "KRW-HBAR", // 헤데라
+    "KRW-TON", // 톤코인
+    "KRW-APT", // 앱토스
+    "KRW-STX", // 스택스
+    "KRW-IMX", // 이뮤터블엑스
+    "KRW-INJ", // 인젝티브
+    "KRW-NEAR", // 니어프로토콜
+
+    // 31-40 (추가)
+    "KRW-ETC", // 이더리움클래식
+    "KRW-ARB", // 아비트럼
+    "KRW-OP", // 옵티미즘
+    "KRW-SEI", // 세이
+    "KRW-AAVE", // 에이브
+    "KRW-PEPE", // 페페
+    "KRW-SHIB", // 시바이누
+    "KRW-UNI", // 유니스왑
+    "KRW-LTC", // 라이트코인
+    "KRW-BCH", // 비트코인캐시
   ];
 
   return allMarkets

@@ -2,6 +2,7 @@
 
 "use client";
 
+import { useEffect, useState } from "react";
 import { usePortfolioStore } from "@/store/portfolioStore";
 import { formatKoreanNumber } from "@/lib/upbit";
 
@@ -17,7 +18,35 @@ interface AssetSummaryProps {
 }
 
 export function AssetSummary({ currentPrices }: AssetSummaryProps) {
+  const [mounted, setMounted] = useState(false);
   const { cash, getTotalAsset, getProfitRate } = usePortfolioStore();
+
+  // 클라이언트에서만 렌더링
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    // 서버 렌더링 중에는 로딩 표시
+    return (
+      <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 border border-gray-700 shadow-xl">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div>
+            <p className="text-gray-400 text-sm mb-1">총 자산</p>
+            <div className="h-9 bg-gray-700 rounded animate-pulse" />
+          </div>
+          <div>
+            <p className="text-gray-400 text-sm mb-1">보유 현금</p>
+            <div className="h-8 bg-gray-700 rounded animate-pulse" />
+          </div>
+          <div>
+            <p className="text-gray-400 text-sm mb-1">총 수익률</p>
+            <div className="h-9 bg-gray-700 rounded animate-pulse" />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const totalAsset = getTotalAsset(currentPrices);
   const profitRate = getProfitRate(currentPrices);

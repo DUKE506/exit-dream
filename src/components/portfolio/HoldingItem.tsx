@@ -12,6 +12,7 @@ interface HoldingItemProps {
   coin: Coin | undefined;
   currentPrice: number;
   onSellClick: (symbol: string) => void;
+  onTPSLClick: (symbol: string) => void;
 }
 
 export function HoldingItem({
@@ -19,6 +20,7 @@ export function HoldingItem({
   coin,
   currentPrice,
   onSellClick,
+  onTPSLClick,
 }: HoldingItemProps) {
   // 평가 금액
   const evaluation = holding.amount * currentPrice;
@@ -44,20 +46,35 @@ export function HoldingItem({
             <span className="text-sm text-gray-400">
               {holding.symbol.replace("KRW-", "")}
             </span>
+            {/* TP/SL 뱃지 추가 */}
+            {(holding.takeProfit || holding.stopLoss) && (
+              <span className="text-xs bg-blue-600 text-white px-2 py-0.5 rounded-full">
+                TP/SL
+              </span>
+            )}
           </div>
           <p className="text-gray-400 text-sm">
             보유 수량: {holding.amount.toFixed(8)}
           </p>
         </div>
 
-        {/* 매도 버튼 */}
-        <Button
-          variant="danger"
-          size="md"
-          onClick={() => onSellClick(holding.symbol)}
-        >
-          매도
-        </Button>
+        {/* 버튼들 수정 */}
+        <div className="flex gap-2">
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => onTPSLClick(holding.symbol)}
+          >
+            TP/SL
+          </Button>
+          <Button
+            variant="danger"
+            size="md"
+            onClick={() => onSellClick(holding.symbol)}
+          >
+            매도
+          </Button>
+        </div>
       </div>
 
       {/* 가격 정보 */}
@@ -109,6 +126,45 @@ export function HoldingItem({
           </div>
         </div>
       </div>
+      {/* TP/SL 정보 추가 */}
+      {(holding.takeProfit || holding.stopLoss) && (
+        <div className="mt-4 pt-4 border-t border-gray-700">
+          <div className="grid grid-cols-2 gap-4 text-sm">
+            {holding.takeProfit && (
+              <div className="bg-green-900/20 border border-green-700/30 rounded-lg p-3">
+                <p className="text-green-400 text-xs mb-1">🎯 목표가</p>
+                <p className="text-white font-semibold">
+                  {formatPrice(holding.takeProfit)}원
+                </p>
+                <p className="text-green-400 text-xs mt-1">
+                  +
+                  {(
+                    ((holding.takeProfit - currentPrice) / currentPrice) *
+                    100
+                  ).toFixed(2)}
+                  %
+                </p>
+              </div>
+            )}
+
+            {holding.stopLoss && (
+              <div className="bg-red-900/20 border border-red-700/30 rounded-lg p-3">
+                <p className="text-red-400 text-xs mb-1">🛑 손절가</p>
+                <p className="text-white font-semibold">
+                  {formatPrice(holding.stopLoss)}원
+                </p>
+                <p className="text-red-400 text-xs mt-1">
+                  {(
+                    ((holding.stopLoss - currentPrice) / currentPrice) *
+                    100
+                  ).toFixed(2)}
+                  %
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

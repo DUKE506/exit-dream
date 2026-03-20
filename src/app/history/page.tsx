@@ -36,20 +36,14 @@ export default function HistoryPage() {
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-900 to-black text-white">
       <div className="max-w-6xl mx-auto px-4 py-8">
         {/* 헤더 */}
-        <header className="mb-8">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-4xl font-bold mb-2 text-white">거래 내역</h1>
-              <p className="text-gray-400">전체 매수/매도 기록</p>
-            </div>
-
-            <Button
-              variant="secondary"
-              size="md"
-              onClick={() => router.push("/")}
-            >
-              거래하기
-            </Button>
+        <header className="mb-6">
+          <div>
+            <h1 className="text-3xl md:text-4xl font-bold mb-2 text-white">
+              거래 내역
+            </h1>
+            <p className="text-gray-400 text-sm md:text-base">
+              전체 매수/매도 기록
+            </p>
           </div>
         </header>
 

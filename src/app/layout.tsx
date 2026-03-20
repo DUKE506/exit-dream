@@ -1,6 +1,9 @@
+// src/app/layout.tsx
+
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { FloatingNav } from "@/components/common/FloatingNav";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +19,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        {children}
+        <FloatingNav />
+        {/* Floating Nav 높이만큼 하단 여백 */}
+        <div className="h-24" />
+      </body>
     </html>
   );
 }
