@@ -5,6 +5,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { FloatingNav } from "@/components/common/FloatingNav";
 import { Analytics } from "@vercel/analytics/react";
+import { Footer } from "@/components/common/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,9 +28,11 @@ export default function RootLayout({
     <html lang="ko">
       <body className={inter.className}>
         {children}
-        <FloatingNav />
         {/* Floating Nav 높이만큼 하단 여백 */}
         <div className="h-24" />
+        <Footer />
+        <FloatingNav />
+
         <Analytics />
       </body>
     </html>
