@@ -115,13 +115,17 @@ export function CoinChart({ symbol }: CoinChartProps) {
         let endpoint = "";
         let count = 200;
 
-        if (timeFrame === "D") {
-          endpoint = `https://api.upbit.com/v1/candles/days?market=${symbol}&count=${count}`;
-        } else {
-          endpoint = `https://api.upbit.com/v1/candles/minutes/${timeFrame}?market=${symbol}&count=${count}`;
-        }
+        // if (timeFrame === "D") {
+        //   endpoint = `https://api.upbit.com/v1/candles/days?market=${symbol}&count=${count}`;
+        // } else {
+        //   endpoint = `https://api.upbit.com/v1/candles/minutes/${timeFrame}?market=${symbol}&count=${count}`;
+        // }
 
-        const response = await fetch(endpoint);
+        // const response = await fetch(endpoint);
+        // 아래로 교체
+        const response = await fetch(
+          `/api/upbit/candles?market=${symbol}&timeframe=${timeFrame}&count=${count}`,
+        );
         const data = await response.json();
 
         // 데이터 변환 및 정렬
